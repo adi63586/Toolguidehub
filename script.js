@@ -1,51 +1,43 @@
-// Space Remover Functionality
+// Word Counter Functionality
       const textInput = document.getElementById("text-input");
-      const removeBtn = document.getElementById("remove-btn");
+      const wordCount = document.getElementById("word-count");
+      const characterCount = document.getElementById("character-count");
+      const characterNoSpaces = document.getElementById("character-no-spaces");
+      const sentenceCount = document.getElementById("sentence-count");
+      const paragraphCount = document.getElementById("paragraph-count");
+      const readingTime = document.getElementById("reading-time");
       const clearBtn = document.getElementById("clear-btn");
       const copyBtn = document.getElementById("copy-btn");
-      const removalOptions = document.querySelectorAll(
-        'input[name="removal-type"]'
-      );
 
-      // Remove extra spaces based on selected option
-      function removeExtraSpaces() {
+      // Count words, characters, etc.
+      function countText() {
         const text = textInput.value;
-        if (!text) return;
 
-        const selectedOption = document.querySelector(
-          'input[name="removal-type"]:checked'
-        ).value;
+        // Word count (counts words separated by whitespace)
+        const words = text.trim() === "" ? [] : text.trim().split(/\s+/);
+        wordCount.textContent = words.length;
 
-        let cleanedText = text;
+        // Character counts
+        characterCount.textContent = text.length;
+        characterNoSpaces.textContent = text.replace(/\s+/g, "").length;
 
-        switch (selectedOption) {
-          case "all":
-            // Remove all extra spaces (multiple spaces, line breaks, leading/trailing)
-            cleanedText = text
-              .replace(/\s+/g, " ") // Replace multiple spaces with single space
-              .replace(/(\r\n|\n|\r)+/gm, "\n") // Normalize line breaks
-              .trim(); // Remove leading/trailing spaces
-            break;
-          case "linebreaks":
-            // Remove extra line breaks but keep single line breaks
-            cleanedText = text
-              .replace(/(\r\n|\n|\r)+/gm, "\n") // Normalize and reduce line breaks
-              .trim();
-            break;
-          case "leading-trailing":
-            // Only remove leading and trailing spaces
-            cleanedText = text.trim();
-            break;
-          default:
-            cleanedText = text;
-        }
+        // Sentence count (counts sentences ending with .!? followed by space or end)
+        const sentences = text.split(/[.!?]+(?=\s|$)/).filter(Boolean);
+        sentenceCount.textContent = sentences.length;
 
-        textInput.value = cleanedText;
+        // Paragraph count (counts blocks of text separated by line breaks)
+        const paragraphs = text.split(/\n+/).filter((p) => p.trim() !== "");
+        paragraphCount.textContent = paragraphs.length || 1;
+
+        // Reading time (average reading speed: 200 words per minute)
+        const minutes = Math.ceil(words.length / 200);
+        readingTime.textContent = minutes;
       }
 
       // Clear text
       function clearText() {
         textInput.value = "";
+        countText();
       }
 
       // Copy text
@@ -63,19 +55,9 @@
       }
 
       // Event listeners
-      removeBtn.addEventListener("click", removeExtraSpaces);
+      textInput.addEventListener("input", countText);
       clearBtn.addEventListener("click", clearText);
       copyBtn.addEventListener("click", copyText);
 
-      // Remove spaces on option change
-      removalOptions.forEach((option) => {
-        option.addEventListener("change", removeExtraSpaces);
-      });
-
-      // Process when pressing Enter in textarea (but don't submit)
-      textInput.addEventListener("keydown", function (e) {
-        if (e.key === "Enter" && e.ctrlKey) {
-          removeExtraSpaces();
-          e.preventDefault();
-        }
-      });
+      // Initialize
+      countText();

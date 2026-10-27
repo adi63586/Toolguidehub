@@ -108,8 +108,8 @@
         left: 25%;
       }
 
-      /* Space Remover Section */
-      .space-remover {
+      /* Word Counter Section */
+      .word-counter {
         max-width: 800px;
         margin: 0 auto;
         background-color: #f9f9f9;
@@ -127,7 +127,7 @@
         font-family: "Poppins", sans-serif;
         font-size: 1rem;
         resize: vertical;
-        margin-bottom: 1.5rem;
+        margin-bottom: 2rem;
       }
 
       .text-input:focus {
@@ -135,37 +135,31 @@
         border-color: var(--primary-blue);
       }
 
-      .removal-options {
-        display: flex;
-        flex-wrap: wrap;
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         gap: 1rem;
         margin-bottom: 2rem;
       }
 
-      .removal-option {
-        flex: 1;
-        min-width: 120px;
-      }
-
-      .removal-option input {
-        display: none;
-      }
-
-      .removal-option label {
-        display: block;
-        padding: 0.8rem 1rem;
+      .stat-card {
         background-color: white;
-        border: 1px solid #ddd;
-        border-radius: 5px;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         text-align: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
       }
 
-      .removal-option input:checked + label {
-        background-color: var(--primary-blue);
-        color: white;
-        border-color: var(--primary-blue);
+      .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary-blue);
+        margin-bottom: 0.5rem;
+      }
+
+      .stat-label {
+        font-size: 0.9rem;
+        color: #777;
       }
 
       .action-buttons {
@@ -180,14 +174,6 @@
 
       .btn-clear:hover {
         background-color: #c0392b;
-      }
-
-      .btn-copy {
-        background-color: var(--primary-dark);
-      }
-
-      .btn-copy:hover {
-        background-color: #1a252f;
       }
 
       /* Features Section */
@@ -275,10 +261,6 @@
 
         .btn {
           padding: 0.6rem 1.5rem;
-        }
-
-        .removal-options {
-          flex-direction: column;
         }
 
         .action-buttons {
